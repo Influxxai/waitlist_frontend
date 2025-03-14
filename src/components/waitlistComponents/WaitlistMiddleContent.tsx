@@ -63,7 +63,7 @@ export const WaitlistMiddleContent = () => {
 
   return (
     <div className="text-center font-customMonserrat">
-      <button className="border mt-10 text-textGray shadow-inner shadow-borderInnerGray border-borderColor px-4 py-2 rounded-full text-sm">
+      <button className="border mt-10 text-[#96EFFF] shadow-inner  border-[#97EFFF] px-4 py-2 rounded-full text-sm">
         AI-Powered Social Media Management
       </button>
 
