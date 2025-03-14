@@ -1,4 +1,4 @@
-import influxxLogo from "../images/Influx.svg";
+import influxxLogo from "../images/Influx-Logo.svg";
 export const Logo = () => {
   return (
     <div>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { WaitlistHeader } from "./WaitlistHeader";
 import { WaitlistMiddleContent } from "./WaitlistMiddleContent";
 import { Modal } from "./Modal";
 import blurredIcon1 from "../images/blur_facebook.svg";
@@ -16,6 +17,7 @@ export const Waitlist = () => {
   return (
     <div className="relative min-h-screen flex flex-col items-center justify-center bg-white">
       {/* Header */}
+      <WaitlistHeader />
 
       {/* Content Wrapper */}
       <div className="relative flex flex-col items-center mt-10">
