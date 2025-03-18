@@ -3,7 +3,7 @@ import { useState } from "react";
 import user from "../images/User.svg";
 import letter from "../images/Letter.svg";
 import { People } from "./People";
-import superteam from "../images/superteam.svg";
+
 import { InvalidInput } from "./InvalidInput";
 import { Modal } from "./Modal";
 import { supabase } from "../../lib/supabase";
@@ -141,17 +141,7 @@ export const WaitlistMiddleContent = () => {
         <People />
       </div>
 
-      <div className="flex flex-col items-center justify-center mt-32">
-        <div className="flex items-center gap-1">
-          <p className="text-center text-[#6E6E6E]">
-            Built by the Superteam community
-          </p>
-          <img src={superteam} alt="superteam logo" />
-        </div>
-        <p className="text-center text-[#6E6E6E] mt-2">
-          &copy; 2025 Influxx Labs. All rights reserved.
-        </p>
-      </div>
+     
 
       {/* ✅ Modal Component */}
       <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />

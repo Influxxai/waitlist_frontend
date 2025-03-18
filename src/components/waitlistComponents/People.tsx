@@ -5,7 +5,7 @@ import secondGuy from "../images/secondguy.svg";
 import { EachPerson } from "./EachPerson";
 export const People = () => {
   return (
-    <div className="flex items-center gap-2 ml-20 mt-7 text-center">
+    <div className="flex items-center gap-2 ml-[3rem] mt-2 text-center">
       <div className="flex items-center">
         <EachPerson src={firstGuy} />
         <EachPerson src={firstGirl} />
