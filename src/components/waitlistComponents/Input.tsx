@@ -10,9 +10,9 @@ export const Input = ({type, placeholder,src, alt, inputValue, handleChange}:Inp
   
 
   return (
-    <>
-    <input className="bg-[#E5F8FB]  placeholder:text-[#6E6E6E] border px-10 rounded-full py-2 border-[#00B8D9]"  type={type} value={inputValue} onChange={handleChange} placeholder={placeholder} />
-    <img src={src} className='absolute left-20 top-3' alt={alt} />
-    </>
+    <div className="relative">
+    <input className="bg-[#E5F8FB] placeholder:text-[#6E6E6E] px-[3rem] py-[15px] rounded-[26px] border-[0.5px] border-[#CCF1F7] focus:border focus:border-[#00B8D9] w-full outline-none" type={type} value={inputValue} onChange={handleChange} placeholder={placeholder} />
+    <img src={src} className='absolute left-[5%] top-[35%]' alt={alt} />
+    </div>
   )
 }

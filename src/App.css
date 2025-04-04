@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "play";
-  src: url("./components/font-new/sf-display/SF-Pro-Display-Regular.ttf");
+  font-family: 'play';
+  src: url('./components/font-new/sf-display/SF-Pro-Display-Regular.ttf');
 }
 
 * {
@@ -17,4 +17,5 @@ html {
   max-width: 1440px;
   width: 100%;
   margin: 0 auto;
+  font-size: 16px;
 }

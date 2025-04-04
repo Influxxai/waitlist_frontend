@@ -1,5 +1,5 @@
-import "./App.css";
-import { Waitlist } from "./components/waitlistComponents/Waitlist";
+import './App.css';
+import { Waitlist } from './components/waitlistComponents/Waitlist';
 function App() {
   return (
     <>

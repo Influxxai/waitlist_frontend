@@ -1,21 +1,24 @@
-import { Input } from "./Input";
-import { useState } from "react";
-import user from "../images/User.svg";
-import letter from "../images/Letter.svg";
-import { People } from "./People";
+import { Input } from './Input';
+import { useState } from 'react';
+import user from '../images/User.svg';
+import letter from '../images/Letter.svg';
+import { People } from './People';
 
-import { InvalidInput } from "./InvalidInput";
-import { Modal } from "./Modal";
-import { supabase } from "../../lib/supabase";
+import { InvalidInput } from './InvalidInput';
+import supabase from '../../lib/supabase';
+import toast, { Toaster } from 'react-hot-toast';
+import { Modal } from './Modal';
 
-export const WaitlistMiddleContent = () => {
-  const [fullName, setFullname] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password] = useState<string>("password123"); // Default password (Can be changed later)
+export const WaitlistMiddleContent = ({
+  formRef,
+}: {
+  formRef: React.RefObject<HTMLFormElement | null>;
+}) => {
+  const [fullName, setFullname] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleFullnameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFullname(e.target.value);
@@ -30,45 +33,42 @@ export const WaitlistMiddleContent = () => {
 
     if (!fullName.trim() || !email.trim()) {
       setIsEmpty(true);
-      setErrorMessage("Full name and email are required.");
+      setTimeout(() => {
+        setIsEmpty(false);
+      }, 2000);
+
       return;
     }
 
-    setIsEmpty(false);
     setIsLoading(true);
-    setErrorMessage("");
 
-    try {
-      const {  error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: { full_name: fullName }, // Store full name in Supabase Auth metadata
-        },
-      });
+    const { error } = await supabase.from('store-waitlist').insert([
+      {
+        name: fullName,
+        email: email,
+      },
+    ]);
 
-      if (error) {
-        setErrorMessage(error.message);
-      } else {
-        setModalOpen(true); // ✅ Open modal on successful sign-up
-        setFullname("");
-        setEmail("");
-      }
-    } catch (error) {
-      setErrorMessage("An unexpected error occurred.");
+    if (error) {
+      console.error(error);
+      toast.error('There was an error saving your data');
+      setIsLoading(false);
+    } else {
+      setModalOpen(true);
+      setFullname('');
+      setEmail('');
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   return (
-    <div className="text-center font-customMonserrat">
-      <button className="border mt-10 text-[#00B8D9] shadow-inner  border-[#97EFFF] px-4 py-2 rounded-full text-sm">
-        AI-Powered Social Media Management
-      </button>
+    <div className="text-center font-customMonserrat z-10 w-[95%]">
+      <div className="border mt-10 m-auto text-[#00B8D9] border-[#97EFFF] py-2 rounded-[24px] text-sm max-w-[362px] w-full">
+        AI-Powered Social Media Management Tool
+      </div>
 
-      <div className="mt-5">
-        <h1 className="font-semibold bg-gradient-to-b from-[#69B2ff] to-[#001f3f] text-transparent bg-clip-text text-2xl">
+      <div className="mt-5 z-10">
+        <h1 className="font-semibold bg-gradient-to-b from-[#69B2ff] to-[#001f3f] text-transparent bg-clip-text md:text-[40px] text-[24px]">
           The next-gen-AI-powered creator
           <br />
           growth platform. Get ahead. Get seen.
@@ -77,74 +77,74 @@ export const WaitlistMiddleContent = () => {
         </h1>
       </div>
 
-      <form>
+      <form ref={formRef} className="max-w-[380px] w-full m-auto mt-10 flex flex-col gap-8">
         {/* Full Name Input */}
-        <div className="mt-10 relative text-center">
-          {isEmpty && !fullName ? (
-            <InvalidInput
-              src={user}
-              inputValue={fullName}
-              handleChange={handleFullnameChange}
-              alt="user icon"
-              type="text"
-              placeholder="Type your Full Name!!"
-            />
-          ) : (
-            <Input
-              src={user}
-              handleChange={handleFullnameChange}
-              inputValue={fullName}
-              alt="user icon"
-              type="text"
-              placeholder="Full name"
-            />
-          )}
-        </div>
+        <div className="flex flex-col gap-4">
+          <div className="relative text-center">
+            {isEmpty && !fullName ? (
+              <InvalidInput
+                src={user}
+                inputValue={fullName}
+                handleChange={handleFullnameChange}
+                alt="user icon"
+                type="text"
+                placeholder="Full Name"
+              />
+            ) : (
+              <Input
+                src={user}
+                handleChange={handleFullnameChange}
+                inputValue={fullName}
+                alt="user icon"
+                type="text"
+                placeholder="Full Name"
+              />
+            )}
+          </div>
 
-        {/* Email Input */}
-        <div className="mt-5 relative text-center">
-          {isEmpty && !email ? (
-            <InvalidInput
-              src={letter}
-              handleChange={handleEmailChange}
-              inputValue={email}
-              alt="smtp envelope"
-              type="email"
-              placeholder="Type your email address!!"
-            />
-          ) : (
-            <Input
-              src={letter}
-              handleChange={handleEmailChange}
-              alt="smtp envelope"
-              inputValue={email}
-              type="email"
-              placeholder="Email Address"
-            />
-          )}
-        </div>
+          {/* Email Input */}
+          <div className="relative text-center">
+            {isEmpty && !email ? (
+              <InvalidInput
+                src={letter}
+                handleChange={handleEmailChange}
+                inputValue={email}
+                alt="smtp envelope"
+                type="email"
+                placeholder="Email Address"
+              />
+            ) : (
+              <Input
+                src={letter}
+                handleChange={handleEmailChange}
+                alt="smtp envelope"
+                inputValue={email}
+                type="email"
+                placeholder="Email Address"
+              />
+            )}
+          </div>
 
-        {/* Error Message */}
-        {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
+          {/* Error Message */}
+          {/* {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>} */}
+        </div>
 
         {/* Submit Button */}
         <button
           onClick={handleClick}
-          className="mt-4 bg-[#00B8D9] px-28 rounded-full text-white py-2"
+          className="bg-[#00B8D9] w-full border border-[#96EFFF] shadow-[inset_0px_4px_4px_0px_#FFFFFF4D] py-4 rounded-[30px] text-white text-base"
           disabled={isLoading}
         >
-          {isLoading ? "Loading ..." : "Join Waitlist"}
+          {isLoading ? 'Loading ...' : 'Join Waitlist'}
         </button>
       </form>
 
-      <div className="text-center mt-2">
+      <div className="mt-8">
         <People />
       </div>
 
-     
-
-      {/* ✅ Modal Component */}
-      <Modal isOpen={isModalOpen} onClose={() => setModalOpen(false)} />
+      {isModalOpen && <Modal onClose={() => setModalOpen(false)} />}
+      <Toaster />
     </div>
   );
 };
