@@ -15,7 +15,7 @@ import background from '../images/background.svg';
 import { useRef } from 'react';
 
 export const Waitlist = () => {
-  const formRef = useRef<HTMLFormElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
 
   const handleScrollToForm = () => {
     formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });

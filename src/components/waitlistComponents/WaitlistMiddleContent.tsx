@@ -12,7 +12,7 @@ import { Modal } from './Modal';
 export const WaitlistMiddleContent = ({
   formRef,
 }: {
-  formRef: React.RefObject<HTMLFormElement | null>;
+  formRef: React.RefObject<HTMLDivElement | null>;
 }) => {
   const [fullName, setFullname] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -63,7 +63,7 @@ export const WaitlistMiddleContent = ({
 
   return (
     <div className="text-center font-customMonserrat z-10 w-[95%]">
-      <div className="border mt-10 m-auto text-[#00B8D9] border-[#97EFFF] py-2 rounded-[24px] text-sm max-w-[362px] w-full">
+      <div ref={formRef} className="border mt-10 m-auto text-[#00B8D9] border-[#97EFFF] py-2 rounded-[24px] text-sm max-w-[362px] w-full">
         AI-Powered Social Media Management Tool
       </div>
 
@@ -77,7 +77,7 @@ export const WaitlistMiddleContent = ({
         </h1>
       </div>
 
-      <form ref={formRef} className="max-w-[380px] w-full m-auto mt-10 flex flex-col gap-8">
+      <form className="max-w-[380px] w-full m-auto mt-10 flex flex-col gap-8">
         {/* Full Name Input */}
         <div className="flex flex-col gap-4">
           <div className="relative text-center">
