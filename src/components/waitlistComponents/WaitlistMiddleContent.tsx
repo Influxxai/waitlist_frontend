@@ -33,10 +33,7 @@ export const WaitlistMiddleContent = ({
 
     if (!fullName.trim() || !email.trim()) {
       setIsEmpty(true);
-      setTimeout(() => {
-        setIsEmpty(false);
-      }, 2000);
-
+      setTimeout(() => setIsEmpty(false), 2000);
       return;
     }
 
@@ -53,17 +50,41 @@ export const WaitlistMiddleContent = ({
       console.error(error);
       toast.error('There was an error saving your data');
       setIsLoading(false);
-    } else {
-      setModalOpen(true);
-      setFullname('');
-      setEmail('');
-      setIsLoading(false);
+      return;
     }
+
+    try {
+      const res = await fetch('/pages/api/send-waitlist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name: fullName, email }),
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        toast.success('Saved, email sent.');
+      }
+      if (!result.success) {
+        toast.error('Saved, but failed to send email.');
+      }
+    } catch (error) {
+      console.error('Email error:', error);
+    }
+
+    setModalOpen(true);
+    setFullname('');
+    setEmail('');
+    setIsLoading(false);
   };
 
   return (
     <div className="text-center font-customMonserrat z-10 w-[95%]">
-      <div ref={formRef} className="border mt-10 m-auto text-[#00B8D9] border-[#97EFFF] py-2 rounded-[24px] text-sm max-w-[362px] w-full">
+      <div
+        ref={formRef}
+        className="border mt-10 m-auto text-[#00B8D9] border-[#97EFFF] py-2 rounded-[24px] text-sm max-w-[362px] w-full"
+      >
         AI-Powered Social Media Management Tool
       </div>
 

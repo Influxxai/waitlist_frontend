@@ -23,9 +23,7 @@ export const Modal: React.FC<ModalProps> = ({ onClose }) => {
       const { data } = await supabase.from('store-waitlist').select();
 
       if (data && data.length > 1) {
-        setWaitlistData(data[data.length - 1]);
-        console.log('waitlistData', data[data.length - 1]);
-        
+        setWaitlistData(data[data.length - 1]);        
       }
     };
     fetchData();

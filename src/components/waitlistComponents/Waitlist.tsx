@@ -84,11 +84,8 @@ export const Waitlist = () => {
               <img src={influxxThreeLogo} alt="Influxx Logo" className="w-36 h-8 mr-2" />
               <div className="flex items-center gap-[12px] text-sm">
                 <span>📩</span>
-                <a
-                  href="mailto:influxxai@gmail.com"
-                  className="text-[#8C8C8C] hover:text-[#6E6E6E]"
-                >
-                  influxxai@gmail.com
+                <a href="mailto:hello@influxx.xyz" className="text-[#8C8C8C] hover:text-[#6E6E6E]">
+                  hello@influxx.xyz
                 </a>{' '}
               </div>
             </div>
