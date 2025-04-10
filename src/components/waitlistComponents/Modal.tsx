@@ -20,12 +20,22 @@ export const Modal: React.FC<ModalProps> = ({ onClose }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data } = await supabase.from('store-waitlist').select();
+      const token = localStorage.getItem('waitlistToken');
+      if (!token) return;
 
-      if (data && data.length > 1) {
-        setWaitlistData(data[data.length - 1]);        
+      const { data, error } = await supabase
+        .from('store-waitlist')
+        .select()
+        .eq('token', token)
+        .single();
+
+      if (data) {
+        setWaitlistData(data);  
+      }else{
+        console.error(error);
       }
     };
+
     fetchData();
   }, []);
 

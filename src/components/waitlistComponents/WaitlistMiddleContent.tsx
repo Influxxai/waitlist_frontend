@@ -8,6 +8,7 @@ import { InvalidInput } from './InvalidInput';
 import supabase from '../../lib/supabase';
 import toast, { Toaster } from 'react-hot-toast';
 import { Modal } from './Modal';
+import emailjs from '@emailjs/browser';
 
 export const WaitlistMiddleContent = ({
   formRef,
@@ -28,6 +29,20 @@ export const WaitlistMiddleContent = ({
     setEmail(e.target.value);
   };
 
+  const sendEmail = async (name: string, email: string) => {
+    const result = await emailjs.send(
+      'service_a49m21q',
+      'template_d4015bf',
+      {
+        name: name,
+        email: email,
+      },
+      't37ofnWXY59Ih5_M6'
+    );
+
+    console.log('Email sent:', result);
+  };
+
   const handleClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
@@ -38,11 +53,14 @@ export const WaitlistMiddleContent = ({
     }
 
     setIsLoading(true);
+    const userToken = crypto.randomUUID();
+    localStorage.setItem('waitlistToken', userToken);
 
     const { error } = await supabase.from('store-waitlist').insert([
       {
         name: fullName,
         email: email,
+        token: userToken,
       },
     ]);
 
@@ -53,26 +71,7 @@ export const WaitlistMiddleContent = ({
       return;
     }
 
-    try {
-      const res = await fetch('/pages/api/send-waitlist', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: fullName, email }),
-      });
-
-      const result = await res.json();
-      if (result.success) {
-        toast.success('Saved, email sent.');
-      }
-      if (!result.success) {
-        toast.error('Saved, but failed to send email.');
-      }
-    } catch (error) {
-      console.error('Email error:', error);
-    }
-
+    sendEmail(fullName, email)
     setModalOpen(true);
     setFullname('');
     setEmail('');
